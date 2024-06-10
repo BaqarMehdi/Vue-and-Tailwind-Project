@@ -1,58 +1,93 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div
+    class="grid min-h-[40px] w-full place-items-center overflow-x-scroll rounded-lg p-4 md:overflow-visible"
+  >
+    <img
+      class="object-center w-30 h-12 my-12"
+      src="http://dev.schoolpk.com/images/schoolpk-logo-200.png"
+      alt="nature image"
+    />
+  </div>
+  <div class="flex justify-center">
+    <form class="bg-white p-8 shadow-md rounded-md w-full max-w-md" @submit.prevent="submitForm">
+      <h2 class="text-center text-2xl font-bold mb-3 text-grey">Dev School</h2>
+
+      <!-- Your form fields go here -->
+      <div class="mb-4">
+        <!-- <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username:</label> -->
+        <input
+          type="text"
+          id="username"
+          placeholder="Email"
+          v-model="username"
+          class="w-full border p-2 rounded-md"
+        />
+        <p v-if="!isValidEmail" class="text-red-500 text-sm mt-1">Please enter a valid email address.</p>
+      </div>
+
+      <div class="mb-6">
+        <!-- <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label> -->
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          v-model="password"
+          class="w-full border p-2 rounded-md"
+        />
+        <p v-if="!isValidPassword" class="text-red-500 text-sm mt-1">Password must be at least 5 characters long.</p>
+      </div>
+      <div class="flex justify-between">
+        <Span><input type="checkbox" name="" id="" />Remember me</Span>
+        <button 
+          type="submit"
+          class="bg-blue-500 text-red py-2 px-4 rounded-md hello"
+        >
+          Sign In
+        </button>
+      </div>
+    </form>
   </div>
 </template>
-
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
-</script>
+  name: "HelloWorld",
+  data() {
+    return {
+      username: "",
+      password: "",
+      isValidEmail: true,
+      isValidPassword: true,
+    };
+  },
+  methods: {
+    submitForm() {
+      this.isValidEmail = this.validateEmail(this.username);
+      this.isValidPassword = this.validatePassword(this.password);
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+      if (this.isValidEmail && this.isValidPassword) {
+        // Perform additional actions (e.g., API call, authentication)
+        this.$router.push('/dashboard');
+      }
+    },
+    validateEmail(email) {
+      // Basic email validation
+      const emailRegex = /\S+@\S+\.\S+/;
+      return emailRegex.test(email);
+    },
+    validatePassword(password) {
+      // Password should be at least 5 characters long
+      return password.length >= 5;
+    },
+  },
+};
+
+</script>
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+* {
+  background-color: white;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.hello {
+  background-color: blue;
+  color: white;
 }
 </style>
