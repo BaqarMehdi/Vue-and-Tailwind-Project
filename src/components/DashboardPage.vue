@@ -1,9 +1,16 @@
 <template>
-<div></div>
+<div>
+  <NavbarPage/>
+</div>
 </template>
 <script>
+import NavbarPage from "@/components/NavbarPage.vue";
+
 export default {
-    name: "dashboardPage"
+    name: "DashboardPage",
+    components: {
+      NavbarPage
+    }
 }
 </script>
 <style></style>
